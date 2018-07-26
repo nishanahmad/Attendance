@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\LeaveRequest;
 
 
 class LeaveRequestController extends Controller
@@ -18,30 +19,19 @@ class LeaveRequestController extends Controller
 		return view('leaveRequest');
     }
 	
-    public function request()
+    public function request(Request $request)
     {
 		$user_id = Auth::user()->id;
-		
-		try
+		$leaveDate = date("Y-m-d",strtotime($request->get('selectedDate')));
+		$today = date("Y-m-d");
+		if($leaveDate <= $today)
+			return redirect()->back()->with('status', 'Please select a date in future');
+		else
 		{
-			$timeSheet = new TimeSheet(array('date' => $today, 'user_id' => $user_id, 'checkIn' => $now));			
-			$timeSheet->save();			
+			$leaveRequest =  new LeaveRequest(array('date' => $leaveDate, 'user_id' => $user_id));			
+			$leaveRequest->save();			
+			
+			return redirect('/home')->with('status', 'Success!!!</br> The leave request is sent the admin. Pending for approval');
 		}
-		catch(\Illuminate\Database\QueryException $e)
-		{
-			return redirect()->back()->with('status', 'Error!!! Please contact admin with the following error detail :<br><br>'.$e->getMessage());										
-		}
-		
-		try
-		{
-			$user = User::whereId($user_id)->firstOrFail();
-			$user -> isCheckedIn = 1;
-			$user -> save();
-		}
-		catch(ModelNotFoundException $e)
-		{
-			return redirect()->back()->with('status', 'Error!!! Please contact admin with the following error detail :<br><br>'.$e->getMessage());										
-		}		
-		return redirect('home');    			
 	}	
 }

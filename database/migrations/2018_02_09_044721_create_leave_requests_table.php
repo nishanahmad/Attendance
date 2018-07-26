@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeaveRequestTable extends Migration
+class CreateLeaveRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateLeaveRequestTable extends Migration
      */
     public function up()
     {
-        Schema::create('leave_request', function (Blueprint $table) {
+        Schema::create('leave_requests', function (Blueprint $table) {
             $table->increments('id');
 			$table->integer('user_id');
 			$table->date('date');
@@ -28,6 +28,6 @@ class CreateLeaveRequestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leave_request');
+        Schema::dropIfExists('leave_requests');
     }
 }
