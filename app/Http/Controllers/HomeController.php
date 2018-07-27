@@ -11,22 +11,14 @@ class HomeController extends Controller
     {
 		if (Auth::check())
 		{
-			
-			if(Auth::user()->isCheckedIn)
-			{
-				$string = 'Checked In';
-				return view('home',compact('string'));			
-			}
+			if(Auth::user()->role != 'Admin')
+				return view('home');							
 			else
-			{
-				$string = 'Not Checked In';
-				return view('home',compact('string'));							
-			}
-				
+				return view('adminHome');							
 		}
+			
 
 		else
 			return view('auth/login');			
-		
     }
 }

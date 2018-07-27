@@ -37,10 +37,10 @@
 <hr>
 <div class="w3-cell-row">
   <div class="w3-cell">
-	@if ($string == 'Not Checked In')
-		<button class="button" onclick="location.href='{{ url('checkIn') }}'">Check In</button>
+	@if(Auth::user()->isCheckedIn)
+		<button class="button" onclick="location.href='{{ url('checkOut') }}'">Check Out</button>	
 	@else			
-		<button class="button" onclick="location.href='{{ url('checkOut') }}'">Check Out</button>
+		<button class="button" onclick="location.href='{{ url('checkIn') }}'">Check In</button>		
 	@endif
   </div>
 </div>  
