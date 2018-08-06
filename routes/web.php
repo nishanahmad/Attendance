@@ -25,5 +25,7 @@ Route::post('checkOut', 'TimeSheetController@checkOut');
 Route::get('leaveRequest', 'LeaveRequestController@view');
 Route::post('leaveRequest', 'LeaveRequestController@request');
 
+Route::get('/leaves/{company?}','LeaveController@view');
+
 Auth::routes();
 
